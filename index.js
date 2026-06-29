@@ -37,6 +37,22 @@ app.post("/musico", (req, res) => {
         res.status(500).json({resposta: error.message})
     }
 })
+
+app.delete("/musica/:id", (req, res) => {
+    const id = req.params.id
+    try{
+        const bd = JSON.parse(fs.readFileSync('bd.json','utf8'))
+        const indiceMusica = bd.findIndex((musica) => muisca.id == id)
+        if (indiceMusica == -1){
+            return  res.status(404).json({erro: "Erro ao excluir, muisca não exites"})
+        }
+        bd.splice(indiceMusica, 1)
+        fs.writeFileSync('bd.json', JSON.stringify(bd))
+        req.status(200).json({resposta: "Musica removida com sucesso!"})
+    }catch (error){
+        res.status(500).json({erro: error.message})
+    }
+})
 app.listen(port, ()=>{
     console.log("API rodando na porta" + port)
 })
