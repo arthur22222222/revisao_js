@@ -1,8 +1,8 @@
-const { channel } = require("diagnostics_channel")
+
 const express = require("express")
 const app = express
 const port = 3000
-app.request(express.json())
+app.use(express.json())
 const fs = require('fs')
 
 app.get("/musicas/id ", (req, res) => {
