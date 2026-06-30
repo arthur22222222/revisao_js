@@ -1,4 +1,3 @@
-
 const express = require("express")
 const app = express
 const port = 3000
@@ -51,6 +50,20 @@ app.delete("/musica/:id", (req, res) => {
         req.status(200).json({resposta: "Musica removida com sucesso!"})
     }catch (error){
         res.status(500).json({erro: error.message})
+    }
+
+})
+app.get("/musica/estilo/:estilo",(req,res) =>{
+    const estilo = req.params.estilo
+    try{
+        const bd = JSON.parse(fs.readFileSync('bd.json', 'utf8'))
+        const musica = bd.filter((musica) => musica.estilo == estilo)
+        if(musica.length == 0 ){
+            return res.status(404).json({erro: "Estilo de musica não encontrado"})
+        }
+        res.status(200).json({resposta: musica})
+    } catch (error) {
+        res.status(500).json({reposta: error.message})
     }
 })
 app.listen(port, ()=>{
